@@ -1,4 +1,4 @@
-# Open Issues (snapshot 2026-05-30_1226)
+# Open Issues (snapshot 2026-05-30)
 
 | # | Title |
 |---|-------|

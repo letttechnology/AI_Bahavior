@@ -33,9 +33,11 @@ When the user says "go ahead" or "do what you think" in context of an issue, it 
 
 If the user corrects a change and asks if it is right: answer the question. Do not start fixing it. Wait for instruction.
 
-## Rule 3 — Grep tool uses rg internally. Now fixed.
+## Rule 3 — Glob/Grep access denied errors on D:\ root. FIXED.
 
-The Grep tool depends on `ripgrep` (rg), which was not installed. Fixed by installing rg 15.1.0 via winget. Grep tool now works correctly.
+Both Glob and Grep tools invoke a bundled `rg` internally. When `path` is `D:\` or omitted (defaults to `D:\`), rg scans the drive root and hits protected Windows system dirs (`$RECYCLE.BIN`, `System Volume Information`) → access denied on stderr → tool parser fails with "invalid ripgrep output".
+
+**Fix**: Created `D:\.rgignore` containing `$RECYCLE.BIN/` and `System Volume Information/`. The bundled rg honors `.rgignore` and skips these directories during the file walk, preventing access denied errors entirely.
 
 ## Rule 4 — Always use dev.sh for servers.
 
@@ -74,3 +76,20 @@ The most recently modified .jsonl is the last session. On session end, it's copi
 Launch configs are in `D:\workspace-vscode\.vscode\launch.json`. Ask: "Can you launch 'API: Admin (8081)' from VS Code's Run & Debug panel?"
 
 Once the server is running, use curl for verification.
+
+## OpenCode chat export — scripts only, no direct DB access
+
+Do NOT query `opencode.db` directly (SQLite `part`/`message`/`session` tables). Use the scripts:
+
+- **Export latest session**: `python D:\workspace-vscode\AI_Memory\chat\export_latest.py` (session end)
+- **Recall specific session**: `python D:\workspace-vscode\AI_Memory\chat\recall.py recall <id_prefix>`
+- **List sessions**: `python D:\workspace-vscode\AI_Memory\chat\recall.py list`
+
+## Context refresh — mandatory mid-session reload
+
+REQUIRED: Every 50 tool calls, I MUST re-read `preferences.md` and `session-state.md` from AI_Memory. This is not optional — it is the only mechanism to prevent context decay from erasing rules.
+
+- Use `todowrite` as a turn counter: start `turns: 0`, increment on each tool call, when `turns >= 50` → re-read both files and reset counter.
+- This overrides any other priority — do not skip because you're "in the middle of something." Do it immediately on the 50th call.
+
+Tracked as opencode feature request (pending upstream). This is the stopgap.

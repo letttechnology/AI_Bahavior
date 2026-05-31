@@ -1,0 +1,3 @@
+# Exclude old-format chat exports that may contain API keys from session transcripts
+chat_ses_189f99d1effe5x_*.md
+*.jsonl

@@ -7,3 +7,4 @@
 - Updated `preferences.md` Rule 3 (grep fix documented)
 - Updated `.opencode/memory.md` with correct memory location path and proper glob/grep usage
 - Reviewed TSR status: still at step 1 (build POST /admin/import-sense-selections endpoint)
+- **FIXED** glob/grep access denied errors: Created `D:\.rgignore` excluding `$RECYCLE.BIN/` and `System Volume Information/`. Bundled rg honors `.rgignore` and skips these directories during walk, avoiding access denied errors entirely.
