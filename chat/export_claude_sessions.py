@@ -1,13 +1,24 @@
-"""
+r"""
 Export Claude Code sessions from .jsonl files to readable markdown.
 Reads all sessions in C:\Users\<user>\.claude\projects\D--workspace-vscode\
 and exports each one not already exported to AI_Memory\chat\.
 """
-import json, os, glob
+import json, os, glob, sys
 from datetime import datetime, timezone
 
-SESSIONS_DIR = os.path.join(os.environ['USERPROFILE'], '.claude', 'projects', 'D--workspace-vscode')
-OUT_DIR      = r'D:/workspace-vscode/AI_Memory/chat'
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
+PROJECTS_ROOT = os.path.join(os.environ['USERPROFILE'], '.claude', 'projects')
+SESSION_DIRS = [d for d in [
+    os.path.join(PROJECTS_ROOT, 'D--workspace-vscode'),
+    os.path.join(PROJECTS_ROOT, 'd--workspace-vscode-interlinear-bible-studio'),
+    os.path.join(PROJECTS_ROOT, 'd--workspace-vscode-interlinear-bible-reader'),
+    os.path.join(PROJECTS_ROOT, 'd--workspace-vscode-interlinear-bible-lexis'),
+    os.path.join(PROJECTS_ROOT, 'd--workspace-vscode-interlinear-bible-api'),
+    os.path.join(PROJECTS_ROOT, 'd--workspace-vscode-interlinear-bible-ui'),
+] if os.path.isdir(d)]
+OUT_DIR = r'D:/workspace-vscode/AI_Memory/chat'
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -59,9 +70,9 @@ def export_session(jsonl_path):
 
     return messages
 
-# Find all session .jsonl files
+# Find all session .jsonl files across all project dirs
 session_files = sorted(
-    glob.glob(os.path.join(SESSIONS_DIR, '*.jsonl')),
+    [f for d in SESSION_DIRS for f in glob.glob(os.path.join(d, '*.jsonl'))],
     key=os.path.getmtime
 )
 
