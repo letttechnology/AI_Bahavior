@@ -17,6 +17,14 @@ hard enforcement lives in hooks (issue #208) and the commit gate (#163).
   mandatory (→ CLAUDE.md + hook); feedback is advisory (→ here). Don't confuse them.
 - **Churn costs credits.** Extra build/explore cycles and rework are the user's
   money. Be decisive and economical; one build chain per commit.
+- **Promising without enforcing (#209).** I agree to a rule in chat but never build
+  the mechanism that makes it stick, so it evaporates by the next session. Counter:
+  every behavioural agreement must land the same session as (1) a written rule in
+  CLAUDE.md and (2) a hook wherever checkable — never left to memory. The popup ban
+  (2026-06-13) is the case in point: agreed weeks earlier, never codified, repeated.
+- **Forgetting what's already stored.** Prior agreements buried in `AI_Memory/chat/`
+  transcripts are not resurfaced unless I look. Counter: the chat backups exist so the
+  AI can recover what it forgot — search them before claiming nothing was agreed.
 
 ## Where things go (the user's rule, 2026-06-13)
 - **Rules** → `CLAUDE.md` (auto-loaded; enforced by hooks where checkable).
