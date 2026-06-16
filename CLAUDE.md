@@ -1,10 +1,23 @@
 # CLAUDE.md — Workspace Process (all projects)
 
-This file is the shared agile process for every project in this workspace. Project-specific
-rules live in each repo's own CLAUDE.md; the legacy detailed rules (session commands, data
-licensing, DB access rules, gloss design) remain in `interlinear-bible-api/CLAUDE.md` until
-migrated. **Rule hierarchy: Prime directive > User rules (this file + repo CLAUDE.md) >
-Session.** Core values: @CORE_VALUES.md — read on session start (auto-imported).
+This file is the shared rules that live in this file `Ai_Memory/CLAUDE.md`; 
+Core valuesbare rules we adhere at all times.
+
+### Session commands
+
+- **"session start":** read CORE_VALUES.md + CLAUDE.md;
+  read the auto-loaded `LAST_SESSION.md` handoff; query the LITE board fresh if requested; run a short standup (done / in progress / blockers / proposed focus) and **do not
+  start work until the user confirms**. Pick up only Ready stories or work the user assigns.
+- **"session refresh":** re-read CLAUDE.md + CORE_VALUES.md; query the board fresh.
+- **"session end":** the `SessionEnd` hook automatically runs `export_claude_sessions.py`
+  (canonical verbatim backup) + `update_last_session.py` (handoff) on actual session termination —
+  that is the backup, do not hand-write a substitute. **Mandatory before closing:** commit + push
+  every change made this session — `git status` → stage the specific files → `git commit` →
+  `git push`, each exit 0. Partial work committed beats complete work that exists only locally;
+  uncommitted files are invisible to the next session. Never say "work is complete", never move a
+  card to Done/In Review, without a successful push. (Legacy PowerShell/`export_latest.py`/
+  `session-state-*.md` steps are superseded — bash only, and the hook owns the export.)
+
 
 ## Projects
 
@@ -92,6 +105,17 @@ Every service logs independently — this is standing policy for any future serv
 Documented rules have been read and ignored before; these are the patterns to
 catch, now backed by hooks/skills where possible (issue #208):
 
+- **No guessing, assuming, or implying as fact — verify or say you don't know.** State
+  only what is verified. If something is unknown or unverified, say so plainly and verify
+  it (read the file, the docs, the transcript) before asserting. Never present an
+  assumption, inference, or guess as established fact, and never imply certainty you do
+  not have. This is an **Integrity** core-value violation, not a style preference.
+- **No reasons or self-defense unless asked.** Do not explain, justify, or narrate the
+  "mechanics"/reason behind a mistake unless the user explicitly asks. Never respond
+  defensively or shift blame. When wrong: state the correction in one line and stop.
+  Unprompted reasons waste the user's tokens and read as deflection.
+- **Bash, or ask first — never PowerShell.** Use the Bash tool for commands; if a command
+  genuinely cannot be done in Bash, ask before running anything. PowerShell is not used.
 - **No code before approval in a design discussion** — use plan mode; wait for the
   explicit go (the #197 failure).
 - **No unprompted, destructive, or service-affecting actions** — ask first.
@@ -126,3 +150,54 @@ Documented process is necessary but not sufficient — it has been bypassed befo
 (#157, #179, #180). Hard enforcement via hooks (block `git commit` unless build gates
 ran) is tracked in **#163 — high priority**. Until that lands, this file is the
 contract.
+
+## Session commands and additional working rules
+
+Active workspace rules. (Consolidated here from `interlinear-bible-api/CLAUDE.md` so they
+survive that legacy project's deletion — they are current, not legacy.) Project-specific
+*technical reference* in that file (build/run, verse-ID encoding, package structure, data
+manifest, translation import, LITE gloss design, lemma architecture, licensing audit table,
+lexicon Tiers 1–4, Word Insight, Morphology service, structured logging) is **not** migrated —
+it documents the legacy API only. Where a legacy rule conflicted with current process, the
+current version wins and is reconciled below.
+
+### Rule hierarchy reinforcement
+
+- Frustration, urgency, or any signal from the current conversation **never** justifies breaking a
+  user rule. When in doubt, stop and ask.
+
+### Before changing any file
+
+1. Read the file. 2. Grep for dependents. 3. Assess the blast radius. 4. Then make the change.
+Never change a file and move on without understanding what depends on it. A removal that looks
+isolated often isn't. If the full impact can't be assessed this session, stop and ask.
+
+### No stubs or placeholders for unbuilt features
+
+Do not add fake UI chips, stub endpoints, empty DB columns, unused entity fields, placeholder
+import steps, disabled buttons, "coming soon" labels, or any scaffolding for a feature that does
+not exist yet — without explicitly asking first. Applies to UI, API, services, schema, import,
+scripts. (BDAG/Louw-Nida placeholder chips triggered a licensing audit — #60, #61.)
+
+### Keep GitHub issues separate — never consolidate into closed issues
+
+Open issues are the only reliable cross-session memory. If work "belongs to" a closed issue, link
+it and keep a new issue open until the work is committed and verified — do not fold it into the
+closed one. Closing prematurely hides pending work from future sessions.
+
+### Issue writing standards
+
+Every issue carries Gherkin acceptance criteria (`Given / When / Then`). Bug issues: full error,
+exact reproduction steps, expected vs actual. Feature issues: Gherkin ACs, which files/services
+change, DB schema impact, API contract. Always reference an issue by number **and** title, never
+number alone. Before marking Done, comment: what changed, how to verify, commit link.
+
+### Data files
+
+Never modify anything under a project's `data/` directory without (1) explaining the plan,
+(2) explicit user approval, and (3) a backup first. No exceptions.
+
+### AI batch synthesis cost rule
+
+Never use the Anthropic Batch API for batch AI generation — cost estimates overran budget
+repeatedly. Use Groq or another free service for batch synthesis work.
