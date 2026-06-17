@@ -1,7 +1,8 @@
 # CLAUDE.md — Workspace Process (all projects)
 
-This file is the shared rules that live in this file `Ai_Memory/CLAUDE.md`; 
-Core valuesbare rules we adhere at all times.
+This file holds rules for project.
+Core values are rules we adhere at all times.
+Bash is our prefered terminal.
 
 ### Session commands
 
@@ -11,12 +12,15 @@ Core valuesbare rules we adhere at all times.
 - **"session refresh":** re-read CLAUDE.md + CORE_VALUES.md; query the board fresh.
 - **"session end":** the `SessionEnd` hook automatically runs `export_claude_sessions.py`
   (canonical verbatim backup) + `update_last_session.py` (handoff) on actual session termination —
-  that is the backup, do not hand-write a substitute. **Mandatory before closing:** commit + push
-  every change made this session — `git status` → stage the specific files → `git commit` →
-  `git push`, each exit 0. Partial work committed beats complete work that exists only locally;
-  uncommitted files are invisible to the next session. Never say "work is complete", never move a
-  card to Done/In Review, without a successful push. (Legacy PowerShell/`export_latest.py`/
-  `session-state-*.md` steps are superseded — bash only, and the hook owns the export.)
+  that is the backup, do not hand-write a substitute.
+  **Two repos to commit (a known fact — do not re-verify each session):** the workspace repo
+  `d:\workspace-vscode` (root CLAUDE.md, `.claude/`) is **local-only — no remote**, so commit
+  there but there is nothing to push; `AI_Memory/` is its **own** git repo (remote
+  `letttechnology/AI_Memory.git`, holds the rules, feedback, and chat backups) — commit **and**
+  push there.
+  **Before closing:** commit every change made this session (`git status` → stage the specific
+  files → `git commit`). Push when a story/issue is moved to In Review and Testing; never move a
+  card to Done/In Review without a successful `git push` (exit 0).
 
 
 ## Projects
@@ -68,7 +72,7 @@ Backlog → Ready → In Progress → In Review and Testing → Done
 
 ## Working agreement (collaboration mode — default)
 
-- **Never start or stop services without asking.** The user runs the stack via the
+- **Never start or stop services without being in automode or asking user.** The user ussually runs the stack via the
   VS Code workspace launch configs. A background instance started by Claude collides
   with the user's (ports + target/ file locks). If a build needs a locked file
   released, ask the user to stop the service.
