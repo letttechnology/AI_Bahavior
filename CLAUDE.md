@@ -187,6 +187,27 @@ import steps, disabled buttons, "coming soon" labels, or any scaffolding for a f
 not exist yet — without explicitly asking first. Applies to UI, API, services, schema, import,
 scripts. (BDAG/Louw-Nida placeholder chips triggered a licensing audit — #60, #61.)
 
+### Layering — no data access in controllers (repositories/services only)
+
+Controllers contain **no data access**: no `JdbcTemplate`, no `EntityManager`, no SQL string
+literals (`SELECT`/`INSERT`/`UPDATE`/`DELETE`), no query logic. A controller only binds/validates
+the request, calls a `@Service`, and maps the result to an HTTP response.
+
+- **Queries live in repositories** — Spring Data derived methods, or `@Query` for anything more.
+- **Orchestration/business logic lives in `@Service` classes.** Bulk ETL upserts may use raw
+  batch `JdbcTemplate`, but inside a service/DAO bound to the correct datasource — never a controller.
+- **Multi-datasource projects (Reader, #188):** every repository and `JdbcTemplate`/`DataSource`
+  consumer is **explicitly bound** to the datasource it needs (`@Qualifier`). Never rely on
+  `@Primary` as a silent default — that is exactly what mis-wired the corpus loader and the
+  passage/translation queries to the wrong DB. `@Primary` (the `user` DB) stays only as a
+  write-safe fallback; no business code should depend on it.
+- **Never write cross-database joins.** With separate content/user DBs, read each side from its
+  own datasource and merge in Java.
+- This is a recurring pattern inherited from the legacy `interlinear-bible-api` (7 controllers
+  with raw SQL). Do not reproduce it when porting. Checkable:
+  `grep -rlE 'JdbcTemplate|"SELECT |EntityManager' <project>/src/main/java/**/controller` must
+  return nothing.
+
 ### Keep GitHub issues separate — never consolidate into closed issues
 
 Open issues are the only reliable cross-session memory. If work "belongs to" a closed issue, link
@@ -195,10 +216,17 @@ closed one. Closing prematurely hides pending work from future sessions.
 
 ### Issue writing standards
 
-Every issue carries Gherkin acceptance criteria (`Given / When / Then`). Bug issues: full error,
-exact reproduction steps, expected vs actual. Feature issues: Gherkin ACs, which files/services
-change, DB schema impact, API contract. Always reference an issue by number **and** title, never
-number alone. Before marking Done, comment: what changed, how to verify, commit link.
+Every issue carries **both** (1) a `## Technical Details` section and (2) Gherkin acceptance
+criteria (`Given / When / Then`). We have **no refinement phase**, so the technical surface —
+which files/services change, DB schema impact, API contract, and how the story must be *split* —
+is captured at creation, not deferred. Bundling unrelated technical surfaces into one "big
+refactor" story is what fractured #188 into a chain of surprises (loaders, gloss API, cross-DB
+join); the Technical Details section is where that split gets designed. **Enforced** by the
+`require_issue_details.py` PreToolUse hook, which denies `gh issue create` / `gh issue edit
+--body*` lacking either section. Bug issues: full error, exact reproduction steps, expected vs
+actual. Feature issues: Gherkin ACs, files/services changed, DB schema impact, API contract.
+Always reference an issue by number **and** title, never number alone. Before marking Done,
+comment: what changed, how to verify, commit link.
 
 ### Data files
 
