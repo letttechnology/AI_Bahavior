@@ -33,8 +33,12 @@ Bash is our prefered terminal.
 | interlinear-bible-ui     | interlinear-bible-ui     | — (reader :3000, studio :3001) | 3000/3001 |
 | interlinear-bible-api    | interlinear-bible-api    | interlinear_bible_dev | legacy — reference only, do not modify |
 
-Issues for ALL projects are tracked on `letttechnology/interlinear-bible-api` and the LITE
-Agile Board (lettstanley-oss project 5). `gh`, `mvn`, `psql` are on the OS PATH.
+Issues for ALL projects are tracked on **`letttechnology/interlinear-bible-tracker`** (the
+dedicated tracker repo — "issue tracker for entire project"). This is the **only** issue
+repo; `gh issue` commands must target `--repo letttechnology/interlinear-bible-tracker`.
+**Do NOT use `letttechnology/interlinear-bible-api`** for issues — it is legacy/reference
+only and its issue list is empty. Issues are also surfaced on the LITE Agile Board
+(lettstanley-oss project 5). `gh`, `mvn`, `psql` are on the OS PATH.
 
 ## Agile flow
 
