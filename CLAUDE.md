@@ -83,6 +83,27 @@ Backlog → Ready → In Progress → In Review and Testing → Done
 - After implementing: comment on the issue with (1) what was implemented, (2) exact
   steps to verify. The user verifies and closes.
 
+### Branching (per story) — work isolated, merge on completion
+
+- **When moving a story to In Progress, branch off `main`** — `story/<issue#>-<slug>`
+  (e.g. `story/202-importer`). Do **all** that story's work on that branch.
+- **Stay in your lane:** only touch files for *this* story. Do not modify other in-progress
+  work, or files that may be actively being edited (see below) — that branch is your work only.
+- **Merge into `main`/master only when the story's work is complete** (Definition of Done met:
+  compiles ∧ tests green ∧ committed ∧ pushed — RULE 0). One story, one branch, one merge.
+
+### Accountability — tag your username "Rainman"
+
+- **Add the username `Rainman` to any story you pick up / work** (assignee or a `Rainman`
+  comment on the issue) so it is always clear who is accountable for that work.
+- Use `Rainman` as the working identity for stories you own.
+
+### Don't edit files that may be in active edit
+
+- If a file has **uncommitted changes you did not make**, do not silently modify it.
+  Fix an outright bug if it is one (and say you did), but **ask first if the file is actively
+  being edited** — never sweep someone's in-progress edits into your work.
+
 ## Definition of Done (before a card moves to In Review and Testing)
 
 1. **Build gates — non-negotiable, every backend change:**
