@@ -4,6 +4,34 @@ This file holds rules for project.
 Core values are rules we adhere at all times.
 Bash is our prefered terminal.
 
+## RULE 0 — Completion is a conjunction (read first; applies to everything)
+
+"Done" / "fixed" / "works" / "handled" / a status is a **logical AND of every required
+condition**. It is TRUE only when **every** conjunct is TRUE. One false conjunct ⇒ the whole
+statement is FALSE, and reporting it as done is a **false claim** — a lie in effect, regardless
+of intent.
+
+- **Never** assert a status, or "done/fixed/works", unless every part is verified true.
+- A compound instruction ("do X **and** Y") is satisfied only by `X ∧ Y`. Doing X alone is
+  **not** done. Report exactly which part is done and which is not — never let the rest slip by
+  in a comment or silence.
+- If any conjunct is false: report the status as **not done** and name the failing conjunct.
+
+This governs the agile chain too — each stage is a conjunction, and the stages are **chained
+gates**: a later stage is false unless the earlier gate already held.
+
+```
+Ready             = refined ∧ issue has (## Technical Details ∧ Gherkin AC) ∧ user-moved-to-Ready
+In Progress       = (was Ready ∨ user-assigned) ∧ card moved to In Progress BEFORE any code
+In Review&Testing = In Progress ∧ compiles ∧ test-compiles ∧ tests written ∧ tests ran GREEN
+                    ∧ runtime-smoke (for compiler-invisible changes: config/Flyway/security/startup)
+                    ∧ committed ∧ pushed (exit 0) ∧ Flyway migrations committed same session
+                    ∧ UI changes: `npx tsc --noEmit` clean (both apps)
+Done              = In Review&Testing ∧ user verified ∧ user moved to Done   (only the USER sets Done)
+```
+
+(Per-condition detail is the "Definition of Done" section below; this is its truth-logic form.)
+
 ### Session commands
 
 - **"session start":** read CORE_VALUES.md + CLAUDE.md;
