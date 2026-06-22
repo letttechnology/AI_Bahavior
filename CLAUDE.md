@@ -74,11 +74,12 @@ only and its issue list is empty. Issues are also surfaced on the LITE Agile Boa
 Backlog → Ready → In Progress → In Review and Testing → Done
 ```
 
-- Only the user moves stories to **Ready** and to **Done**.
-- Claude picks up only Ready stories (or work the user assigns directly in-session),
-  moves the card to **In Progress** before any code, and to **In Review and Testing**
-  only after the Definition of Done below is met.
-- Bug found during review → user moves the card back to In Progress.
+- **Claude can refine** a Backlog item and move it to **Ready**; drives **In Progress** and
+  **In Review and Testing**; and **may move to Done — only after testing + review approval**
+  (never on unreviewed work). Claude can also be a **reviewer** on stories it did not implement.
+- Claude moves the card to **In Progress** before any code (branch off `main`, tag `Rainman`),
+  and to **In Review and Testing** only after the Definition of Done below is met.
+- Bug found during review → card goes back to In Progress.
 - Every story gets an issue with Gherkin acceptance criteria before work starts.
 - After implementing: comment on the issue with (1) what was implemented, (2) exact
   steps to verify. The user verifies and closes.
