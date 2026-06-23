@@ -1,3 +1,10 @@
-chat/chat-2026-05-30_1426.md
+# Raw session transcripts are LOCAL-ONLY — never version-controlled or pushed.
+# They are a recovery aid for Claude's memory and can capture secrets printed
+# during a session. Keep them on disk, out of git. (History purge tracked separately.)
+chat/*.md
+chat/archive/
+# ...but the small handoff IS versioned (no secrets, useful across machines):
+!chat/LAST_SESSION.md
+
 scratch/
 .issue-body-tmp.md

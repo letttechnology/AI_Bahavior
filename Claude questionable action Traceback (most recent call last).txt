@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "ossdbtoolsservice_main.py", line 10, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "ossdbtoolsservice\conversion_v2\pipeline\shared\otel.py", line 20, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\monitor\opentelemetry\__init__.py", line 7, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\monitor\opentelemetry\_configure.py", line 27, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\monitor\opentelemetry\_constants.py", line 7, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\monitor\opentelemetry\exporter\__init__.py", line 7, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\monitor\opentelemetry\exporter\export\logs\_exporter.py", line 31, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\monitor\opentelemetry\exporter\export\_base.py", line 18, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\__init__.py", line 10, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\_credentials\__init__.py", line 5, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\_credentials\authorization_code.py", line 9, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\_internal\__init__.py", line 5, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\_internal\aad_client.py", line 11, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\_internal\aad_client_base.py", line 20, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "azure\identity\_internal\aadclient_certificate.py", line 7, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "cryptography\x509\__init__.py", line 7, in <module>
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "cryptography\x509\certificate_transparency.py", line 8, in <module>
+ImportError: DLL load failed while importing _rust: An Application Control policy has blocked this file.
+[PYI-35440:ERROR] Failed to execute script 'ossdbtoolsservice_main' due to unhandled exception!
+[Error - 4:49:26 PM] Connection to server got closed. Server will not be restarted.
