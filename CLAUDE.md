@@ -71,6 +71,9 @@ Full per-condition detail: Definition of Done in `PROCESS_REFERENCE.md`.
 - **A rule is not feedback.** Mandatory rules → this file. Claude's advisory feedback →
   `AI_Memory/feedback/`. The `~/.claude/.../memory` auto-memory dir is disabled — memory lives in
   those two places, nowhere else.
+- **Coding standards** (`CODING_STANDARDS.md`) are mandatory: no hardcoding config/deployment
+  inputs, data-driven over hardcoded maps, no speculative fields/stubs, single source of truth,
+  constants in one named file. Run the field/constant checklist before adding either.
 
 ## Reference index → `AI_Memory/PROCESS_REFERENCE.md`
 
