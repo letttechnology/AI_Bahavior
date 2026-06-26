@@ -75,6 +75,10 @@ Full per-condition detail: Definition of Done in `PROCESS_REFERENCE.md`.
 - **Coding standards** (`CODING_STANDARDS.md`) are mandatory: no hardcoding config/deployment
   inputs, data-driven over hardcoded maps, no speculative fields/stubs, single source of truth,
   constants in one named file. Run the field/constant checklist before adding either.
+- **Testing layers + their limits** (`TESTING.md`): green Testcontainers tests are necessary but
+  NOT sufficient — a fresh container can't catch Flyway validate-against-applied-history, existing-data
+  migrations, cross-service, or config issues. A story is done only when **runtime-smoke** (start vs
+  the dev DB) passes; Flyway/migration changes REQUIRE that startup smoke.
 
 ## Reference index → `AI_Memory/PROCESS_REFERENCE.md`
 
