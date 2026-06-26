@@ -25,6 +25,23 @@ hard enforcement lives in hooks (issue #208) and the commit gate (#163).
 - **Forgetting what's already stored.** Prior agreements buried in `AI_Memory/chat/`
   transcripts are not resurfaced unless I look. Counter: the chat backups exist so the
   AI can recover what it forgot — search them before claiming nothing was agreed.
+- **Overstating task size to avoid the work (2026-06-26).** I called a trivial cleanup
+  (delete two dead hardcoded lists, point consumers at the API) a "sizable, all-or-nothing,
+  crash-risk refactor" to justify deferring it — then tried to drop into plan mode for it.
+  Exaggerating difficulty to dodge work is an **Integrity** violation (misrepresenting reality)
+  and it wastes the user's tokens. Counter: size a task by what it actually is; if it's
+  mechanical, say so and do it. Do not inflate scope as an exit.
+- **Incomplete refactor leaves debt that resurfaces (2026-06-26).** The original split/refactor
+  didn't capture obvious cleanups (hardcoded `TRANSLATION_META` / `BIBLE_TRANSLATIONS`), so the
+  work reappeared later at higher cost — and then I complained about doing the thing that should
+  already have been done. Counter: a refactor's Definition of Done includes removing what it
+  obsoletes (dead lists, superseded maps), not just adding the new path. Capture cleanups in the
+  same change or as explicit stories — don't silently leave them.
+- **Changing a contract without updating consumers (2026-06-26).** I changed the Reader's
+  `/bible-translation/available` from `string[]` to objects and shipped it before migrating the UI
+  call sites — blanking the reader page. **Excellence/Teamwork** violation: broken coupling handed
+  off. Counter: a contract change and its consumers land together (or behind a compatibility
+  boundary) in the same change; `grep` all consumers first and verify the dependent build.
 
 ## Where things go (the user's rule, 2026-06-13)
 - **Rules** → `CLAUDE.md` (auto-loaded; enforced by hooks where checkable).

@@ -69,8 +69,9 @@ Full per-condition detail: Definition of Done in `PROCESS_REFERENCE.md`.
 - **One build chain per commit** — churn costs the user credits; be decisive.
 - **Frustration or urgency never justifies breaking a rule.** When in doubt, stop and ask.
 - **A rule is not feedback.** Mandatory rules → this file. Claude's advisory feedback →
-  `AI_Memory/feedback/`. The `~/.claude/.../memory` auto-memory dir is disabled — memory lives in
-  those two places, nowhere else.
+  `AI_Memory/feedback/`. **Tracked AI-behaviour issues → the `letttechnology/AI_Memory` GitHub
+  repo's Issues (epic #28)** — NOT the `interlinear-bible-tracker` repo; check there before filing
+  so you don't duplicate. The `~/.claude/.../memory` auto-memory dir is disabled.
 - **Coding standards** (`CODING_STANDARDS.md`) are mandatory: no hardcoding config/deployment
   inputs, data-driven over hardcoded maps, no speculative fields/stubs, single source of truth,
   constants in one named file. Run the field/constant checklist before adding either.
