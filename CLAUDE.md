@@ -67,6 +67,13 @@ Full per-condition detail: Definition of Done in `PROCESS_REFERENCE.md`.
   disabled buttons, empty columns) without asking first.
 - **Don't substitute your own method** for an established one (e.g. the session-backup script).
 - **One build chain per commit** — churn costs the user credits; be decisive.
+- **Build gates are hook-enforced, not honor-system.** A `PreToolUse` hook blocks
+  `git commit` unless `mvn compile` passes, and blocks `git push` unless `mvn test` passes, for any
+  repo with a `pom.xml` (`.claude/pre_commit_compile.py`, `.claude/pre_push_test.py`). Non-Maven
+  repos (AI_Memory, docs, the Node UI) pass through untouched. The UI's `npx tsc --noEmit` gate is a
+  planned separate hook. A green commit is NOT a green push — tests still run at push, so don't move
+  a card to In Review&Testing on a commit alone. (Closes the #209 "rule without a mechanism" gap for
+  the compile-before-commit rule.)
 - **Frustration or urgency never justifies breaking a rule.** When in doubt, stop and ask.
 - **A rule is not feedback.** Mandatory rules → this file. Claude's advisory feedback →
   `AI_Memory/feedback/`. **Tracked AI-behaviour issues → the `letttechnology/AI_Memory` GitHub
